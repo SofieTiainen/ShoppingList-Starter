@@ -37,7 +37,7 @@ Koppla händelser till elementet
 form.addEventListener('submit', onSaveGrocery);
 clearButton.addEventListener('click', onClearList);
 list.addEventListener('click', onClickRemoveGrocery);
-filterInput.addEventListener('input', onFilterGroceries);
+// filterInput.addEventListener('input', onFilterGroceries);
 document.addEventListener('DOMContentLoaded', onDisplayGroceries);
 
 /*2. Spara inköps till listan.
@@ -107,30 +107,52 @@ function removeGrocery(item: HTMLLIElement):void{
     removeFromStorage(item.textContent!);
 }
 
-function onFilterGroceries(this:HTMLInputElement): void{
-    const value = this.value;
+// function onFilterGroceries(this:HTMLInputElement): void{
+//     const value = this.value;
+//     const groceries = document.querySelectorAll('li');
+
+//     for(let grocery of groceries) {
+//         /*grabba tag i elementet vi får via grocery via listan
+//         "Ge mig första barnet, och ge mig textinnehållet, ? 
+//         för vi kanske inte har något förstabarn, sedan toLowerCase*/
+//         const item = grocery.firstChild?.textContent?.toLowerCase();
+        
+//         /*Nu ska vi titta om om vårt item, har ett index, för mitt value, 
+//         om det existerar, om den inte är = -1 innebär det att den finns där,
+//         annars tar vi nästa steg.*/
+
+
+//         if(item?.indexOf(value) !== -1 ) {
+//             //sätt displaytypen flex
+//             grocery.style.display = 'flex'
+//         } else {
+//             grocery.style.display = 'none'
+//         }
+
+//     }
+// }
+
+/*Funktionen ovan med arrow-function */
+const onFilterGroceries = (e:Event): void => {
+    //vi typar om e.target till ett html element
+    const value = (<HTMLInputElement>e.target).value;
     const groceries = document.querySelectorAll('li');
 
-    for(let grocery of groceries) {
-        /*grabba tag i elementet vi får via grocery via listan
-        "Ge mig första barnet, och ge mig textinnehållet, ? 
-        för vi kanske inte har något förstabarn, sedan toLowerCase*/
+    for (let grocery of groceries) {
         const item = grocery.firstChild?.textContent?.toLowerCase();
-        
-        /*Nu ska vi titta om om vårt item, har ett index, för mitt value, 
-        om det existerar, om den inte är = -1 innebär det att den finns där,
-        annars tar vi nästa steg.*/
 
-
-        if(item?.indexOf(value) !== -1 ) {
-            //sätt displaytypen flex
+            if(item?.indexOf(value) !== -1 ) {
             grocery.style.display = 'flex'
         } else {
             grocery.style.display = 'none'
         }
-
     }
 }
+
+
+
+filterInput.addEventListener('input', onFilterGroceries);
+
 
 /*Vi måste först hämta upp det som finns i listan */
 function addToStorage(grocery: string): void {
